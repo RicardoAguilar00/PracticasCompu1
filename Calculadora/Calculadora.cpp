@@ -32,7 +32,7 @@ else if (b == '-')
 else if (b== '*') {
     cout<<"Resultado: \n"<< a << b << c << " = " << a*c;
 }
-else if (b== '/') {
+else if (b== '/'& c!=0) {
     cout<<"Resultado: \n"<< a << b << c << " = " << a/c;
 }
 else if (b== '%') {
