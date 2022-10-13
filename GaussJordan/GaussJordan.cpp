@@ -94,63 +94,59 @@ No regresa ningún valor.
 */
 template <typename matriz>
 void GaussJordan(matriz & miMatriz)
+
 {
+    double mayor; 
+    int indice; 
+    double aux; 
+    double pivot;
 
-    // Declaramos tres variables como apoyo para la suma de filas y cambiarlas de ser necesario.
-    int fila =1;
-    float temp = 0;
-    int sumafila = 0;
-    for (int i = 0; i < miMatriz.size() ; i++) {
-        fila = 1;
-        // Si nuestro pivote es 0 cambiamos las filas
-        while (miMatriz[i][i] == 0 && fila < miMatriz.size()) {
-            for (int j = 0; j <= miMatriz.size(); j++) {
-                temp = miMatriz[i][j];
-                miMatriz[i][j] = miMatriz[fila][j];
-                miMatriz[fila][j] = temp;
-            }
-            fila++;
-        }
-        // Si todas las filas tienen pivote = 0 se pasa al siguiente pivote
-        if (fila == miMatriz.size()) {
-            continue;
-        }
-    }
-    int variables = 3;
-    //array matrix2=miMatriz;
-    for (int j = 0; j < variables-1; j++) {//colunma para multiplicador
-
-        for (int i = 0; i < (variables-1); i++) {//renglon para multiplicador
-
-            float multiplicador = (miMatriz[i + 1 +j][j] / miMatriz[j][j]);
-            //cout << multiplicador << endl;
-
-            for (int k = 0; k <= variables; k++) {
-                //miMatriz[i][k] = miMatriz[i][k] * multiplicador;
-                miMatriz[i + 1 + j][k+j] = miMatriz[i + 1 +j][k+j] - (miMatriz[j][k+j] * multiplicador);
-                //cout << miMatriz[i + 1+ j][k+j] << endl;
-
+    int variables = miMatriz.size();
+    // recorramos la matriz reducida
+    for(int i = 0; i < variables; i++ ){
+        mayor = abs(miMatriz[i][i]);
+        indice = i;
+        
+        for(int j = i + 1; j < variables; j++){
+            if(mayor < abs(miMatriz[j][i])){
+                mayor = abs(miMatriz[j][i]);
+                indice = j;
             }
         }
-    }
-    //se hace jordan
-    for (int j = variables-1 ; j >= 1; j--) {//colunma para multiplicador
-
-        for (int i = (variables-1); i > 0 ; i--) {//renglon para multiplicador
-            float multiplicador = (miMatriz[i-3+j][j]/miMatriz[j][j]);
-            //cout << multiplicador << endl;
-
-            for (int k = variables; k >=0 ; k--) {
-                //miMatriz[i][k] = miMatriz[i][k] * multiplicador;
-                miMatriz[i-3+j][k] = miMatriz[i-3+j][k] - (miMatriz[j][k] * multiplicador);
-                //cout << miMatriz[i-3+j][k-2+j] << endl;
-
+        //filas
+        if(i != indice){
+            for(int k = 0; k < variables + 1; k++){
+                aux = miMatriz[i][k];
+                miMatriz[i][k] = miMatriz[indice][k];
+                miMatriz[indice][k] = aux;
             }
-
         }
-
+        // si es igual a 0
+        if(miMatriz[i][i] == 0){
+            cout << "No tiene solucion :( " << endl;
+        }
+        else{
+            // reccoremos la fila
+            for(int k = 0; k < variables; k++){
+                if (k != i){
+                    pivot = -miMatriz[k][i];
+                    // recorremos los elementos de la fila
+                    for(int l = i; l < variables + 1; l++){
+                        miMatriz[k][l] = miMatriz[k][l] + pivot * miMatriz[i][l] / miMatriz[i][i];
+                    }
+                }
+                else{
+                    pivot = miMatriz[i][i];
+                    for(int m = i; m < variables + 1; m++){
+                        miMatriz[k][m] = miMatriz[k][m] / pivot;
+                    }
+                }
+            }
+        }
     }
-
 }
+    
+
+
 
 
