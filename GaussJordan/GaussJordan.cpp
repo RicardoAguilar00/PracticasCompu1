@@ -95,6 +95,27 @@ No regresa ningún valor.
 template <typename matriz>
 void GaussJordan(matriz & miMatriz)
 {
+
+    // Declaramos tres variables como apoyo para la suma de filas y cambiarlas de ser necesario.
+    int fila =1;
+    float temp = 0;
+    int sumafila = 0;
+    for (int i = 0; i < miMatriz.size() ; i++) {
+        fila = 1;
+        // Si nuestro pivote es 0 cambiamos las filas
+        while (miMatriz[i][i] == 0 && fila < miMatriz.size()) {
+            for (int j = 0; j <= miMatriz.size(); j++) {
+                temp = miMatriz[i][j];
+                miMatriz[i][j] = miMatriz[fila][j];
+                miMatriz[fila][j] = temp;
+            }
+            fila++;
+        }
+        // Si todas las filas tienen pivote = 0 se pasa al siguiente pivote
+        if (fila == miMatriz.size()) {
+            continue;
+        }
+    }
     int variables = 3;
     //array matrix2=miMatriz;
     for (int j = 0; j < variables-1; j++) {//colunma para multiplicador
@@ -131,4 +152,5 @@ void GaussJordan(matriz & miMatriz)
     }
 
 }
+
 
