@@ -31,9 +31,11 @@ int main()
 
     // Pedimos al usuario que llene la matriz
     LlenarMatriz(miMatriz);
+    //ImprimirMatriz(miMatriz);
 
     // Aplicamos el método de Gauss-Jordan sobre nuestra matriz
     GaussJordan(miMatriz);
+    //ImprimirMatriz(miMatriz);
 
     // Imprimimos la solución de la matriz
     ImprimirSolucion(miMatriz);
@@ -82,7 +84,7 @@ void ImprimirSolucion(matriz & miMatriz)
 {
     int variables = miMatriz.size();
     for (int i = 0; i < variables; i++) {
-        cout << "Solución:\n" << "x" << i << " = "<< miMatriz[i][variables] << endl;
+        cout << "Solución:\n" << "x" << i << " = "<< miMatriz[i][variables]/miMatriz[i][i] << endl;
     }
 }
 
@@ -93,14 +95,40 @@ No regresa ningún valor.
 template <typename matriz>
 void GaussJordan(matriz & miMatriz)
 {
-    int variables = miMatriz.size();
+    int variables = 3;
     //array matrix2=miMatriz;
+    for (int j = 0; j < variables-1; j++) {//colunma para multiplicador
 
-    for (int i = 0; i < variables; i++) {
-        float multiplicador = (miMatriz[i + 1][i] / miMatriz[i][i]);
+        for (int i = 0; i < (variables-1); i++) {//renglon para multiplicador
+
+            float multiplicador = (miMatriz[i + 1 +j][j] / miMatriz[j][j]);
+            //cout << multiplicador << endl;
+
             for (int k = 0; k <= variables; k++) {
-                miMatriz[i][k] = miMatriz[i][k] * multiplicador;
-                miMatriz[i + 1][k] = miMatriz[i + 1][k] - miMatriz[i][k];
+                //miMatriz[i][k] = miMatriz[i][k] * multiplicador;
+                miMatriz[i + 1 + j][k+j] = miMatriz[i + 1 +j][k+j] - (miMatriz[j][k+j] * multiplicador);
+                //cout << miMatriz[i + 1+ j][k+j] << endl;
+
             }
+        }
     }
+    //se hace jordan
+    for (int j = variables-1 ; j >= 1; j--) {//colunma para multiplicador
+
+        for (int i = (variables-1); i > 0 ; i--) {//renglon para multiplicador
+            float multiplicador = (miMatriz[i-3+j][j]/miMatriz[j][j]);
+            //cout << multiplicador << endl;
+
+            for (int k = variables; k >=0 ; k--) {
+                //miMatriz[i][k] = miMatriz[i][k] * multiplicador;
+                miMatriz[i-3+j][k] = miMatriz[i-3+j][k] - (miMatriz[j][k] * multiplicador);
+                //cout << miMatriz[i-3+j][k-2+j] << endl;
+
+            }
+
+        }
+
+    }
+
 }
+
